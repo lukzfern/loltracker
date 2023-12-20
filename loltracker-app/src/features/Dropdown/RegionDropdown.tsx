@@ -1,4 +1,5 @@
 import React from 'react';
+import { Select, MenuItem, SelectChangeEvent } from '@mui/material';
 
 interface RegionOption {
   value: string;
@@ -8,18 +9,18 @@ interface RegionOption {
 interface RegionDropdownProps {
   regions: RegionOption[];
   selectedRegion: string;
-  onChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
+  onChange: (event: SelectChangeEvent<string>) => void; // Corregir el tipo del evento aquí
 }
 
 const RegionDropdown: React.FC<RegionDropdownProps> = ({ regions, selectedRegion, onChange }) => {
   return (
-    <select value={selectedRegion} onChange={onChange}>
+    <Select value={selectedRegion} onChange={onChange} sx={{ height: '40px', backgroundColor: 'white',  }}>
       {regions.map((region) => (
-        <option key={region.value} value={region.value}>
+        <MenuItem key={region.value} value={region.value}>
           {region.label}
-        </option>
+        </MenuItem>
       ))}
-    </select>
+    </Select>
   );
 };
 

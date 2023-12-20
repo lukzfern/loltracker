@@ -4,6 +4,8 @@ import SearchBar from '../SearchBar/SearchBar';
 import RegionDropdown from '../Dropdown/RegionDropdown';
 import { buscarUsuario } from '../../api/profileService';
 import { getSummonerIcons } from '../../api/dataDragonService';
+import { Grid, Box } from '@mui/material';
+import { SelectChangeEvent } from '@mui/material/Select';
 
 interface SummonerData {
   id: string;
@@ -57,7 +59,7 @@ const Home: React.FC = () => {
     { value: 'vn2', label: 'VN' },
   ];
 
-  const handleRegionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleRegionChange = (event: SelectChangeEvent<string>) => {
     setSelectedRegion(event.target.value);
   };
 
@@ -121,28 +123,26 @@ const Home: React.FC = () => {
   };
 
   return (
-    <div className="Home">
-      <header className="Home-header">
-        <p>
-          <b>Welcome to loltracker 🔎</b>
-        </p>
-        <div className="region-dropdown">
-          <RegionDropdown
-            regions={regions}
-            selectedRegion={selectedRegion}
-            onChange={handleRegionChange}
-          />
-        </div>
-        <SearchBar onSearch={handleSearch} />
-        <div className="search-container">
-          {loading && <p>Loading...</p>}
-          {error && <p>{error}</p>}
-          {(userData && summonerIcons && userData.profileIconId && summonerIcons[userData.profileIconId] && loaded) &&
-          <div className="user-info-container">
-            {displaySummonerInfo()}
-          </div>}
-        </div>
-      </header>
+    <div className='Home'>
+      <p>
+        <b>✨ Welcome to loltracker 🔎</b>
+      </p>
+      <div className="center-content"> {/* Nuevo contenedor para centrar */}
+        <SearchBar 
+          onSearch={handleSearch} 
+          onRegionChange={handleRegionChange} 
+          regions={regions} 
+          selectedRegion={selectedRegion}
+        />
+      </div>
+      <div className="search-container">
+        {loading && <p>Loading...</p>}
+        {error && <p>{error}</p>}
+        {(userData && summonerIcons && userData.profileIconId && summonerIcons[userData.profileIconId] && loaded) &&
+        <div className="user-info-container">
+          {displaySummonerInfo()}
+        </div>}
+      </div>
     </div>
   );
 };
