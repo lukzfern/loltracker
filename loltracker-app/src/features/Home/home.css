@@ -1,0 +1,73 @@
+.Home {
+  text-align: center;
+}
+
+.user-info-container {
+  background-color: #333;
+  border-radius: 10px;
+  padding: 20px;
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  animation: fadeInAnimation 1s ease-in forwards;
+  max-width: 400px;
+  min-width: 215px;
+  margin: 0 auto;
+}
+
+.summoner-info {
+  text-align: center;
+}
+
+.summoner-name {
+  font-size: 24px;
+  color: #fff;
+  margin-bottom: 5px;
+}
+
+.summoner-level-container {
+  position: relative;
+  display: inline-block;
+}
+
+.summoner-level {
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #42759e;
+  color: #fff;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.summoner-icon {
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  border: 2px solid #fff;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.summoner-icon.image-loaded {
+  opacity: 1;
+}
+
+/* Fade-in animation */
+.fade-in {
+  opacity: 0;
+  animation: fadeInAnimation 1s ease-in forwards;
+}
+
+@keyframes fadeInAnimation {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
