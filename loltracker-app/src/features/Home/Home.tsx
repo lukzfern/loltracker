@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import './home.css';
 import SearchBar from '../SearchBar/SearchBar';
-import RegionDropdown from '../Dropdown/RegionDropdown';
 import { buscarUsuario } from '../../api/profileService';
 import { getSummonerIcons } from '../../api/dataDragonService';
-import { Grid, Box } from '@mui/material';
 import { SelectChangeEvent } from '@mui/material/Select';
+import { AppBar, Toolbar, Typography, Box } from '@mui/material';
 
 interface SummonerData {
   id: string;
@@ -32,7 +31,7 @@ interface RegionOption {
 
 const Home: React.FC = () => {
   const [userData, setUserData] = useState<SummonerData | null>(null);
-  const [selectedRegion, setSelectedRegion] = useState<string>('la2'); // Región por defecto
+  const [selectedRegion, setSelectedRegion] = useState<string>('na1');
   const [summonerIcons, setSummonerIcons] = useState<SummonerIcons>({});
   const [loaded, setLoaded] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -66,11 +65,11 @@ const Home: React.FC = () => {
   const handleSearch = async (searchTerm: string) => {
     try {
       setLoading(true);
-      setUserData(null); // Reiniciar la información del usuario
-      setSummonerIcons({}); // Reiniciar los iconos de invocador
-      setLoaded(false); // Reiniciar la bandera de carga
-      setError(null); // Reiniciar el mensaje de error
-      setShowAnimation(false); // Reiniciar la animación
+      setUserData(null);
+      setSummonerIcons({});
+      setLoaded(false);
+      setError(null);
+      setShowAnimation(false);
   
       const data: SummonerData = await buscarUsuario(searchTerm, selectedRegion);
       setUserData(data);
@@ -80,7 +79,7 @@ const Home: React.FC = () => {
   
       setLoaded(true);
       setLoading(false);
-      setShowAnimation(true); // Activar animación cuando se cargan los datos
+      setShowAnimation(true);
     } catch (error) {
       console.error('Error al buscar el usuario:', error);
       setError('Usuario no encontrado');
@@ -90,7 +89,7 @@ const Home: React.FC = () => {
   
 
   useEffect(() => {
-    setShowAnimation(false); // Desactivar animación al cambiar los datos del usuario
+    setShowAnimation(false);
   }, [userData]);
 
   const handleImageLoad = () => {
@@ -123,23 +122,35 @@ const Home: React.FC = () => {
   };
 
   return (
-    <div className='Home'>
-      <p>
-        <b>✨ Welcome to loltracker 🔎</b>
-      </p>
-      <div className="center-content"> {/* Nuevo contenedor para centrar */}
-        <SearchBar 
-          onSearch={handleSearch} 
-          onRegionChange={handleRegionChange} 
-          regions={regions} 
-          selectedRegion={selectedRegion}
-        />
-      </div>
+    <div className='Home' style={{ margin: 0, padding: 0 }}>
+      <AppBar 
+        position="static" 
+        sx={{ 
+          backgroundImage: 'url("./appbar-img.png")',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        }}
+      >
+        <Toolbar sx={{ justifyContent: 'center' }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+            <Typography variant="h6" component="div" sx={{ textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>
+              <b>🔎 loltracker</b>
+            </Typography>
+            <SearchBar 
+              onSearch={handleSearch} 
+              onRegionChange={handleRegionChange} 
+              regions={regions} 
+              selectedRegion={selectedRegion}
+            />
+            <div style={{ width: '200px' }} />
+          </Box>
+        </Toolbar>
+      </AppBar>
       <div className="search-container">
         {loading && <p>Loading...</p>}
         {error && <p>{error}</p>}
         {(userData && summonerIcons && userData.profileIconId && summonerIcons[userData.profileIconId] && loaded) &&
-        <div className="user-info-container">
+        <div className={`user-info-container ${showAnimation ? 'fade-in' : ''}`}>
           {displaySummonerInfo()}
         </div>}
       </div>
